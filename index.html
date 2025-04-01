@@ -1,31 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Ordering App</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <h1>Welcome to the Food Ordering App</h1>
-    
-    <div id="menu">
-        <div class="item">
-            <h2>Burger</h2>
-            <p>$5</p>
-            <button onclick="addToCart('Burger', 5)">Add to Cart</button>
-        </div>
-        <div class="item">
-            <h2>Pizza</h2>
-            <p>$8</p>
-            <button onclick="addToCart('Pizza', 8)">Add to Cart</button>
-        </div>
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+
+const Home = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="flex flex-col items-center justify-center h-screen bg-red-100">
+      <h1 className="text-4xl font-bold mb-4">Welcome to Food App</h1>
+      <button
+        className="bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-red-600"
+        onClick={() => navigate("/recipes")}
+      >
+        Get Started
+      </button>
     </div>
+  );
+};
 
-    <h2>Cart</h2>
-    <ul id="cart"></ul>
-    <p><strong>Total:</strong> $<span id="total">0</span></p>
+const Recipes = () => {
+  const recipes = [
+    { id: 1, name: "Pizza", image: "https://source.unsplash.com/200x200/?pizza" },
+    { id: 2, name: "Burger", image: "https://source.unsplash.com/200x200/?burger" },
+    { id: 3, name: "Pasta", image: "https://source.unsplash.com/200x200/?pasta" },
+  ];
 
-    <script src="index.js"></script>
-</body>
-</html>
+  return (
+    <div className="p-8">
+      <h2 className="text-3xl font-bold mb-4">Explore Recipes</h2>
+      <div className="grid grid-cols-3 gap-4">
+        {recipes.map((recipe) => (
+          <div key={recipe.id} className="bg-white p-4 shadow-lg rounded-lg">
+            <img src={recipe.image} alt={recipe.name} className="w-full rounded-lg" />
+            <h3 className="text-xl font-semibold mt-2">{recipe.name}</h3>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/recipes" element={<Recipes />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
+
